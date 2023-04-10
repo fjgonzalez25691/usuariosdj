@@ -1,8 +1,24 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from django.views.generic.edit import FormView
+from django.urls import (
+    reverse_lazy,
+    reverse
+)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import (
+    authenticate,
+    login, 
+    logout
+)
 
-from .forms import UserRegisterForm
+from django.http import HttpResponseRedirect
+
+from .forms import (
+    UserRegisterForm,
+    LoginForm,
+    UpdatePasswordForm
+)
 from .models import User
 
 class UserRegisterView(FormView):
@@ -21,3 +37,51 @@ class UserRegisterView(FormView):
             genero=form.cleaned_data['genero'],
         )        
         return super(UserRegisterView, self). form_valid(form)
+    
+class LoginUser(FormView):
+    template_name = 'users/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('home_app:panel')
+    
+    def form_valid(self, form):
+        user = authenticate(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password']
+        )
+        login(self.request, user)
+        return super(LoginUser, self). form_valid(form)
+    
+class LogoutView(View):
+    
+    def get(self, request, *arg, **kwords):
+        logout(request)
+        return HttpResponseRedirect(
+            reverse(
+                'users_app:user-login'
+            )
+        )
+        
+class UpdatePasswordView(LoginRequiredMixin, FormView):
+    template_name = 'users/update.html'
+    form_class = UpdatePasswordForm
+    success_url = reverse_lazy('users_app:user-login')
+    login_url = reverse_lazy('users_app:user-login')
+    
+    def form_valid(self, form):
+        #para recuperar el usuario activo
+        usuario = self.request.user
+        # para hacer la autentificación
+        user = authenticate(
+            username=usuario.username,
+            password=form.cleaned_data['password1']
+        )
+        if user:
+            new_password = form.cleaned_data['password2']
+            usuario.set_password(new_password)
+            usuario.save()
+            
+        logout(self.request)
+        return super(UpdatePasswordView, self). form_valid(form)
+        
+        
+    
