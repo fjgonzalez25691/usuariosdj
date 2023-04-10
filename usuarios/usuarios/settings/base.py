@@ -15,7 +15,7 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,8 +35,6 @@ def get_secret(secret_name, secret=secret):
     
 SECRET_KEY = get_secret('SECRET_KEY')
 
-
-
 # Application definition
 
 DJANGO_APPS = [
@@ -49,7 +47,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    
+    'applications.users',
 ]
 
 THIRD_PARTY_APPS = [
@@ -110,6 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -124,3 +123,5 @@ USE_TZ = True
 
 if __name__ == '__main__':
     print (BASE_DIR)
+    #print (INSTALLED_APPS)
+    print (TEMPLATES[0]['DIRS'])
