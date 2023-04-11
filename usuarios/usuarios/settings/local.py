@@ -35,11 +35,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = get_secret("MAILTRAP_MAIL")
+EMAIL_HOST_PASSWORD = get_secret("MAILTRAP_PASSWORD")
+EMAIL_PORT = '2525'
+'''EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = get_secret("EMAIL")
-EMAIL_HOST_PASSWORD = get_secret("EMAIL_PASSWORD")
+EMAIL_HOST_PASSWORD = get_secret("EMAIL_PASSWORD")'''
 
 if __name__ == '__main__':
     print (STATICFILES_DIRS)

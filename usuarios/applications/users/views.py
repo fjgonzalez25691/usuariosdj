@@ -103,7 +103,7 @@ class UpdatePasswordView(LoginRequiredMixin, FormView):
         return super(UpdatePasswordView, self). form_valid(form)
 
 class CodeVerificationView(FormView):
-    template_name = 'users/verifcation.html'
+    template_name = 'users/verification.html'
     form_class = VerificationForm
     success_url = reverse_lazy('users_app:user-login')
     
