@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codigo verificación</title>
+</head>
+<body>
+    <h1>Verificación de email</h1>
+    <h3>Introduzca el código de verificación</h3>
+    <form action="" method="post">{% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Confirmar</button>
+    </form>
+</body>
+</html>
